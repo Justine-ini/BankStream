@@ -7,7 +7,7 @@ local_env_file = path.join(BASE_DIR, '.envs', '.env.local')
 if path.isfile(local_env_file):
     load_dotenv(local_env_file)
 
-SECRET_KEY = getenv('SECRET_KEY ')
+SECRET_KEY = getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = getenv('DEBUG')
@@ -25,5 +25,3 @@ DEFAULT_FROM_EMAIL = getenv('DEFAULT_FROM_EMAIL')
 DOMAIN = getenv('DOMAIN')
 
 MAX_UPLOAD_SIZE = 1 * 1024 * 1024  # 1 MB
-
-# SECRET_KEY = 'django-insecure-y-esulvjx#+cpo)+*f74dv))n90bw+d9#l7ckxui0_0!-@89(1'
