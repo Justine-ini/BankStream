@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 from os import getenv, path
+from loguru import logger
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -48,6 +49,7 @@ THIRD_PARTY_APPS = [
     'cloudinary',
     'djcelery_email',
     'django_celery_beat',
+    'loguru'
 ]
 
 LOCAL_APPS = [
@@ -93,8 +95,12 @@ WSGI_APPLICATION = 'bankStream.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': getenv('POSTGRES_DB'),
+        'USER': getenv('POSTGRES_USER'),
+        'PASSWORD': getenv('POSTGRES_PASSWORD'),
+        'HOST': getenv('POSTGRES_HOST'),
+        'PORT': getenv('POSTGRES_PORT'),
     }
 }
 
@@ -150,3 +156,39 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Disable Django's built-in logging
+LOGGING_CONFIG = None
+
+# Loguru logging configuration
+LOGURU_LOGGING = {
+    'handlers': [
+        {
+            'sink': BASE_DIR / 'logs/debug.log',
+            'level': 'DEBUG',
+            'filter': lambda record: record["level"].no <= logger.level("WARNING").no,
+            'format': '{time:YYYY-MM-DD HH:mm:ss.SSS} | {level:<8} | {name}:{function}:{line} - {message}',
+            'rotation': '10MB',
+            'retention': '30 days',
+            'compression': 'zip',
+        },
+        {
+            'sink': BASE_DIR / 'logs/error.log',
+            'level': 'ERROR',
+            'format': '{time:YYYY-MM-DD HH:mm:ss.SSS} | {level:<8} | {name}:{function}:{line} - {message}',
+            'rotation': '10MB',
+            'retention': '30 days',
+            'compression': 'zip',
+            'backtrace': True,
+            'diagnose': True,
+        },
+    ],
+}
+logger.configure(**LOGURU_LOGGING)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {'loguru': {'class': 'interceptor.InterceptHandler'}},
+    'root': {'handlers': ['loguru'], 'level': 'DEBUG'},
+}
