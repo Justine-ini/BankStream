@@ -1,0 +1,34 @@
+build:
+	docker compose -f local.yml up --build -d --remove-orphans
+up:
+	docker compose -f local.yml up -d
+
+down:
+	docker compose -f local.yml down
+
+down-v:
+	docker compose -f local.yml down -v
+
+bankstream-config:
+	docker compose -f local.yml config
+
+makemigrations:
+	docker compose -f local.yml run --rm bankStream python manage.py makemigrations
+
+migrate:
+	docker compose -f local.yml run --rm bankStream python manage.py migrate
+
+collectstatic:
+	docker compose -f local.yml run --rm bankStream python manage.py collectstatic --no-input --clear
+
+superuser:
+	docker compose -f local.yml run --rm bankStream python manage.py createsuperuser
+
+flush:
+	docker compose -f local.yml run --rm bankStream python manage.py flush
+
+network-inspect:
+	docker network inspect banker_local_nw
+
+bankstream-db:
+	docker compose -f local.yml exec postgres psql --username=bankstream_user --dbname=bankstream
