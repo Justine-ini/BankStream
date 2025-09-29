@@ -1,6 +1,7 @@
 from pathlib import Path
-from dotenv import load_dotenv
+from datetime import timedelta
 from os import getenv, path
+from dotenv import load_dotenv
 from loguru import logger
 
 
@@ -133,6 +134,7 @@ USE_TZ = True
 
 SITE_ID = 1
 
+FILE_UPLOAD_PERMISSIONS = None
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -144,6 +146,24 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'user_auth.User'
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "BankStream API",
+    "DESCRIPTION": "An API built for banking system",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": "False",
+    "LICENSE": {
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit"
+    }
+
+}
 
 # Disable Django's built-in logging
 LOGGING_CONFIG = None

@@ -6,6 +6,8 @@ set -o pipefail
 
 set -o nounset
 
+
+
 python << END
 import sys
 import time

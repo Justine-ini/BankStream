@@ -13,19 +13,19 @@ bankstream-config:
 	docker compose -f local.yml config
 
 makemigrations:
-	docker compose -f local.yml run --rm bankStream python manage.py makemigrations
+	docker compose -f local.yml run --rm api python manage.py makemigrations
 
 migrate:
-	docker compose -f local.yml run --rm bankStream python manage.py migrate
+	docker compose -f local.yml run --rm api python manage.py migrate
 
 collectstatic:
-	docker compose -f local.yml run --rm bankStream python manage.py collectstatic --no-input --clear
+	docker compose -f local.yml run --rm api python manage.py collectstatic --no-input --clear
 
 superuser:
-	docker compose -f local.yml run --rm bankStream python manage.py createsuperuser
+	docker compose -f local.yml run --rm api python manage.py createsuperuser
 
 flush:
-	docker compose -f local.yml run --rm bankStream python manage.py flush
+	docker compose -f local.yml run --rm api python manage.py flush
 
 network-inspect:
 	docker network inspect banker_local_nw
