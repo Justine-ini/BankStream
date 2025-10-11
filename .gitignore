@@ -5,6 +5,7 @@
 # Byte-compiled / optimized / DLL files
 .vscode
 staticfiles/
+virtualenv/
 .envs/*
 !.envs/.env.example
 
@@ -132,11 +133,13 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.venv/
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+.virtualenv/
 
 # Spyder project settings
 .spyderproject
